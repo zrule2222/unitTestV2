@@ -1,0 +1,58 @@
+{
+  "Authors": [
+    {
+      "id": 1,
+      "name": "Autorius1",
+      "created_at": "",
+      "updated_at": ""
+    },
+    {
+      "id": 2,
+      "name": "Autorius2",
+      "created_at": "a",
+      "updated_at": "b"
+    }
+  ],
+  "Articles": [
+    {
+      "id": 1,
+      "title": "pirmas",
+      "body": "some comment9",
+      "author": 1,
+      "created_at": "2020-01-01 10:12:31",
+      "updated_at": "2023-02-08 09:36:35"
+    },
+    {
+      "id": 2,
+      "title": "antras",
+      "body": "some comment",
+      "author": 2,
+      "created_at": "2020-01-02 10:13:31",
+      "updated_at": "2020-01-03"
+    },
+    {
+      "id": 3,
+      "title": "trecias",
+      "body": "some comment",
+      "author": 1,
+      "created_at": "2020-01-03 10:14:31",
+      "updated_at": ""
+    },
+    {
+      "id": 4,
+      "title": "ketvirtaspi",
+      "body": "some comment",
+      "author": 1,
+      "created_at": "2020-01-03 10:14:31",
+      "updated_at": "2023-02-08 11:34:35"
+    },
+    {
+      "id": 5,
+      "title": "qt",
+      "body": "some comment",
+      "author": 1,
+      "created_at": "2020-01-03 10:14:31",
+      "updated_at": "2023-02-14 10:02:06"
+    }
+  ]
+}
