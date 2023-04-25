@@ -68,19 +68,19 @@ articles.getAuthors = async function(value) {
   }
 
   articles.updateArticle = async function(id, title, content) {
-    const res = await this.checkAuthentification()
-  if(res != 500){
+    //const res = await this.checkAuthentification()
+  //if(res != 500){
     await this.http.put(`/article/${id}`, {
       title: title,
       body: content,
     })
-  }
+  //}
   }
   articles.postArticle = async function(article) {
-    const res = await this.checkAuthentification()
-  if(res != 500){
+    //const res = await this.checkAuthentification()
+  //if(res != 500){
     await this.http.post("/articles", article)
-  }
+  //}
   }
   articles.login = async function(loginData) {
    return await this.http.post("/auth/login", loginData)

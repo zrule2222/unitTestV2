@@ -1,13 +1,13 @@
 <template>
-    <div class="modal" :class="{ 'is-active': isActive }">
+    <div :id="'activeDiv'" class="modal" :class="{ 'is-active': isActive }">
         <div class="modal-background"></div>
         <div class="modal-content">
             <section class="modal-card-body">
-                <label class="label">{{ messageToDisplay }}</label>
+                <label :id="'mesageLabel'" class="label">{{ messageToDisplay }}</label>
 
             </section>
             <footer class="modal-card-foot">
-                <button @click.prevent="close()" class="button is-danger">Close</button>
+                <button :id="'closeButton'" @click.prevent="close()" class="button is-danger">Close</button>
             </footer>
 
 
@@ -27,7 +27,7 @@ export default {
         }
     },
     props: {
-        isActive: { type: Boolean, default: false, required: true }
+        isActive: { type: Boolean, required: true }
     },
     methods: {
         close() {

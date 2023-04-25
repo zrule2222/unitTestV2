@@ -1,181 +1,314 @@
-import { mount } from "@vue/test-utils";
+import { mount, RouterLinkStub } from "@vue/test-utils";
 import ArticleComponent from "../Componnents/Article.vue"
 import { describe, it, expect, vi } from "vitest";
-import { getAuthor } from "../Componnents/Article.vue"
-import axios from 'axios'
-import {articles} from "../Services/articleService.js"
-import {shallowMount } from '@vue/test-utils';
 import flushPromises from 'flush-promises'
-import { nextTick } from 'vue'
-import localVue from "../mocks/localVue";
-//vi.mock('axios')
-//vi.mock(articles)
-//console.log(articles)
+import { createWrapper } from "./mocks/defaultMock"
 
-// vi.mock('vue-router', () => ({
-//   resolve: vi.fn(),
-// }));
 
 describe("Article.vue", async () => {
-   // articles = vi.fn(() => Promise.resolve([]))
-    //vi.fn(getAuthors)
-    //  vi.mock('vue-router', () => ({
-    //     resolve: vi.fn(),
-    //   }));
-    //const spy = vi.spyOn(ArticleComponent, 'getAuthors').mockImplementation(() => getAuthors)
-    //jest.spyOn(axios, 'get').mockResolvedValue({ data: 'some mocked data!' })
 
-    it("should get the prop Article", async () => {
-       
-        const Article =    {
-            id: 1,
-            title: "pirmas",
-            body: "some comment9",
-            author: 1,
-            created_at: "2020-01-01 10:12:31",
-            updated_at: "2023-02-08 09:36:35"
+
+  it("Should set authorName", async () => {
+
+    const Article = {
+      id: 1,
+      title: "pirmas",
+      body: "some comment9",
+      author: 1,
+      created_at: "2020-01-01 10:12:31",
+      updated_at: "2023-02-08 09:36:35"
+    }
+
+    const authorName = "Autorius1"
+
+
+    const wrapper = createWrapper(ArticleComponent, {
+      mocks:
+      {
+        $articles:
+        {
+          getAuthors: () => {
+            return new Promise(resolve => resolve({ name: authorName }))
           }
-        //axios.get.mockResolvedValue({Article})
-        // const result  = await $acticles.getAuthors()
-        //axios.get.mockResolvedValue({data: Article})
-        // jest.spyOn(axios, 'get').mockResolvedValue(Article)
-        // await flushPromises()
-        const Propvalue =    {
-            "id": 1,
-            "title": "pirmas",
-            "body": "some comment9",
-            "author": 1,
-            "created_at": "2020-01-01 10:12:31",
-            "updated_at": "2023-02-08 09:36:35"
+        }
+      },
+      propsData: { Article }
+    })
+
+    await flushPromises()
+
+    expect(wrapper.vm.$data.AuthorName).toBe(authorName);
+  });
+
+  it("No Data was reveived in the component", async () => {
+
+    const Article = {}
+
+
+    var authorName
+
+
+    const wrapper = createWrapper(ArticleComponent, {
+      mocks:
+      {
+        $articles:
+        {
+          getAuthors: () => {
+            return new Promise(resolve => resolve({ name: authorName }))
           }
-        //   vi.mock("../Services/articleService.js",async () => ({
-        //   articles: vi.fn()
-        // }));
-          //const fn = vi.fn(articles.getAuthors).mockResolvedValueOnce();
-          //console.log(await  fn())
-          //console.log(await articles.getAuthors())
-        //   let a = await articles.getAuthors(Article.author)
-        //  console.log(a)
-        let aa = Article.author
+        }
+      },
+      propsData: { Article }
+    })
 
-        const wrapper = mount(ArticleComponent, {
-           propsData: { Article },
-          mocks:{
-            $articles:{
-              getAuthors: () => {
-                //author = Article.author
-              // console.log(author)
-                //author = Article.author
-                return new Promise(resolve => resolve({name: "Autorius1"}))
-              }
-            }
-          }})
-            //localVue,
-            //propsData: { Article },
+    await flushPromises()
 
-            // mocks:{
-            //     AuthorName: ''
-            // },
-           
-        //});
-        
-        //wrapper.setData({ AuthorName: 'a' });
-        //await nextTick()
-       await flushPromises()
+    expect(wrapper.vm.$data.AuthorName).toBeUndefined();
+    expect(wrapper.vm.Article.id).toBeUndefined();
+    expect(wrapper.vm.Article.title).toBeUndefined();
+    expect(wrapper.vm.Article.body).toBeUndefined();
+    expect(wrapper.vm.Article.author).toBeUndefined();
+    expect(wrapper.vm.Article.created_at).toBeUndefined();
+    expect(wrapper.vm.Article.updated_at).toBeUndefined();
+  });
 
-        expect(wrapper.vm.$data.AuthorName).toBe("Autorius1");
-    });
+  it("Should set component text from  Article data", async () => {
+    const Article = {
+      "id": 1,
+      "title": "pirmas",
+      "body": "some comment9",
+      "author": 1,
+      "created_at": "2020-01-01 10:12:31",
+      "updated_at": "2023-02-08 09:36:35"
+    }
 
-//     it("should get the Article title", async () => {
-//         const Article =    {
-//             "id": 1,
-//             "title": "pirmas",
-//             "body": "some comment9",
-//             "author": 1,
-//             "created_at": "2020-01-01 10:12:31",
-//             "updated_at": "2023-02-08 09:36:35"
-//           }
+    const authorName = "Autorius1"
 
 
-          
-
-//         const wrapper = shallowMount(ArticleComponent, {
-//             propsData: { Article },
-//         });
-//         //await flushPromises()
 
 
-//         expect(wrapper.find("p").text()).toBe("pirmas")
-//     });
+    const wrapper = createWrapper(ArticleComponent, {
+      mocks:
+      {
+        $articles:
+        {
+          getAuthors: () => {
+            return new Promise(resolve => resolve({ name: authorName }))
+          }
+        }
+      },
+      propsData: { Article }
+    })
 
-//     it("should get the Article author", async () => {
-//         const Article =    {
-//             "id": 1,
-//             "title": "pirmas",
-//             "body": "some comment9",
-//             "author": 1,
-//             "created_at": "2020-01-01 10:12:31",
-//             "updated_at": "2023-02-08 09:36:35"
-//           }
-
-
-          
-
-//         const wrapper = shallowMount(ArticleComponent, {
-//             propsData: { Article },
-//         });
-//         //await flushPromises()
+    await flushPromises()
 
 
-//         expect(wrapper.findAll("p").at(1).text()).toBe("Autorius1")
-//     });
+    expect(wrapper.find("#title").text()).toBe(Article.title)
+    expect(wrapper.find("#authorName").text()).toBe(authorName)
+    expect(wrapper.find("#date").text()).toBe(Article.updated_at)
+  });
 
-//         it("should get the Article date", async () => {
-//         const Article =    {
-//             "id": 1,
-//             "title": "pirmas",
-//             "body": "some comment9",
-//             "author": 1,
-//             "created_at": "2020-01-01 10:12:31",
-//             "updated_at": "2023-02-08 09:36:35"
-//           }
+  it("Should not get the Article component text", async () => {
+    const Article = {}
+
+    var authorName
 
 
-          
-
-//         const wrapper = shallowMount(ArticleComponent, {
-//             propsData: { Article },
-//         });
-//         //await flushPromises()
 
 
-//         expect(wrapper.findAll("p").at(2).text()).toBe("2023-02-08 09:36:35")
-//     });
+    const wrapper = createWrapper(ArticleComponent, {
+      mocks:
+      {
+        $articles:
+        {
+          getAuthors: () => {
+            return new Promise(resolve => resolve({ name: authorName }))
+          }
+        }
+      },
+      propsData: { Article }
+    })
 
-//     it("should get the edit button emit", async () => {
-//         const Article =    {
-//             "id": 1,
-//             "title": "pirmas",
-//             "body": "some comment9",
-//             "author": 1,
-//             "created_at": "2020-01-01 10:12:31",
-//             "updated_at": "2023-02-08 09:36:35"
-//           }
+    await flushPromises()
 
 
-          
+    expect(wrapper.find("#title").text()).toBeFalsy
+    expect(wrapper.find("#authorName").text()).toBeFalsy
+    expect(wrapper.find("#date").text()).toBeFalsy
+  });
 
-//         const wrapper = shallowMount(ArticleComponent, {
-//             propsData: { Article },
-//         });
-//         //await flushPromises()
-//        let button = await wrapper.find('button').trigger('click')
-//        await wrapper.vm.$nextTick() // Wait until $emits have been handled
 
-// expect(wrapper.emitted('show-edit')).toBeTruthy()
 
-//         //expect( wrapper.emitted().toEqual(['show-edit']))
-//        // expect(wrapper.emitted().toEqual(['show-edit']))
-//     });
+  it("Should get the edit button emit", async () => {
+    const Article = {
+      "id": 1,
+      "title": "pirmas",
+      "body": "some comment9",
+      "author": 1,
+      "created_at": "2020-01-01 10:12:31",
+      "updated_at": "2023-02-08 09:36:35"
+    }
+
+    const authorName = "Autorius1"
+    const showEditValue = 1
+
+    const wrapper = createWrapper(ArticleComponent, {
+      mocks:
+      {
+        $articles:
+        {
+          getAuthors: () => {
+            return new Promise(resolve => resolve({ name: authorName }))
+          }
+        }
+      },
+      propsData: { Article }
+    })
+
+
+    await flushPromises()
+    let button = await wrapper.find('#edit').trigger('click')
+    await wrapper.vm.$nextTick() // Wait until $emits have been handled
+
+    expect(wrapper.emitted('show-edit')).toStrictEqual([[showEditValue]])
+
+  });
+
+  it("The edit button should emit no value", async () => {
+    const Article = {}
+
+    const authorName = "Autorius1"
+    var showEditValue
+
+    const wrapper = createWrapper(ArticleComponent, {
+      mocks:
+      {
+        $articles:
+        {
+          getAuthors: () => {
+            return new Promise(resolve => resolve({ name: authorName }))
+          }
+        }
+      },
+      propsData: { Article }
+    })
+
+
+    await flushPromises()
+    let button = await wrapper.find('#edit').trigger('click')
+    await wrapper.vm.$nextTick() // Wait until $emits have been handled
+
+    expect(wrapper.emitted('show-edit')).toStrictEqual([[showEditValue]])
+
+  });
+
+  it("Should delete article and emit delete sucess", async () => {
+    const Article = {
+      "id": 1,
+      "title": "pirmas",
+      "body": "some comment9",
+      "author": 1,
+      "created_at": "2020-01-01 10:12:31",
+      "updated_at": "2023-02-08 09:36:35"
+    }
+    const authorName = "Autorius1"
+    const actionType = 'delete'
+    const sucess = 'sucess'
+
+    const wrapper = createWrapper(ArticleComponent, {
+      mocks:
+      {
+        $articles:
+        {
+          getAuthors: () => {
+            return new Promise(resolve => resolve({ name: authorName }))
+          },
+          deleteArticle: () => {
+            return new Promise(resolve => resolve())
+          }
+        }
+      },
+      propsData: { Article }
+    })
+
+    await flushPromises()
+    let button = await wrapper.find('#delete').trigger('click')
+    await wrapper.vm.$nextTick() // Wait until $emits have been handled
+    window.confirm = vi.fn().mockImplementation(() => true)
+    await wrapper.findAll('button').at(2).trigger('click')
+    expect(wrapper.emitted('delete-action')).toStrictEqual([[{ actionType: actionType, sucess: sucess }]])
+
+  });
+
+  it("Should fail to delete article and emit delete fail", async () => {
+    const Article = {
+      "id": 1,
+      "title": "pirmas",
+      "body": "some comment9",
+      "author": 1,
+      "created_at": "2020-01-01 10:12:31",
+      "updated_at": "2023-02-08 09:36:35"
+    }
+    const authorName = "Autorius1"
+    const actionType = 'delete'
+    const sucess = 'failure'
+
+    const wrapper = createWrapper(ArticleComponent, {
+      mocks:
+      {
+        $articles:
+        {
+          getAuthors: () => {
+            return new Promise(resolve => resolve({ name: authorName }))
+          },
+          deleteArticle: () => {
+            return new Promise(() => reject())
+          }
+        }
+      },
+      propsData: { Article }
+    })
+
+    await flushPromises()
+    let button = await wrapper.find('#delete').trigger('click')
+    await wrapper.vm.$nextTick() // Wait until $emits have been handled
+    expect(wrapper.emitted('delete-action')).toStrictEqual([[{ actionType: actionType, sucess: sucess }]])
+
+  });
+
+  it("Should set the correcter router link to prop", async () => {
+    vi.mock('vue-router')
+    const Article = {
+      "id": 1,
+      "title": "pirmas",
+      "body": "some comment9",
+      "author": 1,
+      "created_at": "2020-01-01 10:12:31",
+      "updated_at": "2023-02-08 09:36:35"
+    }
+    const authorName = "Autorius1"
+    const name = 'SpesificArticle'
+    const params = { id: 1 }
+    const wrapper = createWrapper(ArticleComponent, {
+      mocks:
+      {
+        $articles:
+        {
+          getAuthors: () => {
+            return new Promise(resolve => resolve({ name: authorName }))
+          },
+          deleteArticle: () => {
+            return new Promise(() => reject())
+          }
+        }
+      },
+      stubs: {
+        RouterLink: RouterLinkStub
+      },
+      propsData: { Article }
+    })
+
+    expect(wrapper.find('#redirectToArticle').props().to).toStrictEqual({ name: name, params: params })
+  });
 
 });

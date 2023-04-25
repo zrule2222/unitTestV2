@@ -1,8 +1,8 @@
 import { vi } from "vitest";
-import App from "../App.vue";
-import router from "../router";
+import App from "../../App.vue";
+import router from "../../router";
 import axios from "axios";
-import articles from "../Services/articleService";
+import articles from "../../Services/articleService";
 import mockRequests from "../mocks/utils";
 
 //import { library } from "@fortawesome/fontawesome-svg-core";

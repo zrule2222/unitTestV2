@@ -1,47 +1,47 @@
 <template>
 
   <div>
-    <div class="modal" :class="{ 'is-active': isActive }">
+    <div :id="'isActiveDiv'" class="modal" :class="{ 'is-active': isActive }">
       <div class="modal-background"></div>
       <div class="modal-content">
         <header class="modal-card-head">
 
-          <p v-if="this.actionType != 'edit'" class="modal-card-title">Add Article</p>
-          <p v-if="this.actionType == 'edit'" class="modal-card-title">Edit Article</p>
+          <p :id="'addArticle'" v-if="this.actionType != 'edit'" class="modal-card-title">Add Article</p>
+          <p :id="'editArticle'" v-if="this.actionType == 'edit'" class="modal-card-title">Edit Article</p>
         </header>
         <section class="modal-card-body">
           <div class="field">
             <label class="label">Title</label>
             <div class="control">
-              <input class="input" :class="badTitle ? 'is-danger' : ''" v-model="title"
+              <input :id="'titleImput'" class="input" :class="badTitle ? 'is-danger' : ''" v-model="title"
                 type="text" placeholder="Title">
-              <p v-show="badTitle" class="help is-danger">Tittle is empty</p>
+              <p :id="'titleEmpty'" v-show="badTitle" class="help is-danger">Tittle is empty</p>
             </div>
           </div>
           <div class="field">
             <label class="label">Author</label>
             <div class="control">
-              <div class="select" :class="badAuthor ? 'is-danger' : ''">
+              <div :id="'AuthorSelect'" class="select" :class="badAuthor ? 'is-danger' : ''">
                 <select v-model="author" :disabled="this.actionType == 'edit' ? true : false">
                   <option value="" disabled selected>Select author</option>
                   <option v-for="author in Authors" :key="author.id" :value="author.id">{{ author.name }}</option>
                 </select>
-                <p v-show="badAuthor" class="help is-danger">Author not selected</p>
+                <p :id="'noAuthor'" v-show="badAuthor" class="help is-danger">Author not selected</p>
               </div>
             </div>
           </div>
           <div class="field">
             <label class="label">Content</label>
             <div class="control">
-              <textarea :class="badContent ? 'is-danger' : ''" v-model="content"
+              <textarea :id="'textArea'" :class="badContent ? 'is-danger' : ''" v-model="content"
                 class="textarea" placeholder="Content area"></textarea>
-              <p v-show="badContent" class="help is-danger">Content is empty</p>
+              <p :id="'noContent'" v-show="badContent" class="help is-danger">Content is empty</p>
             </div>
           </div>
         </section>
         <footer class="modal-card-foot">
-          <button @click="doAction" class="button is-success">Save changes</button>
-          <button @click.prevent="close()" class="button is-danger">Close</button>
+          <button :id="'doAction'" @click="doAction" class="button is-success">Save changes</button>
+          <button :id="'closeButton'" @click.prevent="close()" class="button is-danger">Close</button>
         </footer>
 
 
@@ -68,7 +68,7 @@ export default {
   props: {
     actionType: { type: String, required: true },
     editIndex: { type: Number },
-    isActive: { type: Boolean, default: false, required: true }
+    isActive: { type: Boolean, required: true }
   },
   methods: {
     closeAfterAction(type, sucess) {

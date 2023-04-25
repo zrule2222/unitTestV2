@@ -1,80 +1,103 @@
-import { mount } from "@vue/test-utils";
+
 import Message from "../Componnents/Message.vue";
 import { describe, it, expect } from "vitest";
 import {messageToDisplay} from "../Componnents/Message.vue"
-import {setMessage} from  "../Componnents/Message.vue"
 import {sucess} from "../Componnents/Message.vue"
+import { createWrapper } from "./mocks/defaultMock"
 
-describe("Modal.vue", () => {
 
-    it("should get the prop Type", () => {
+
+describe("Message.vue", () => {
+
+    it("Should get the correct prop types", () => {
         const type = "sucess";
         const isActive = true;
-        const PropText = "sucess";
-        const wrapper = mount(Message, {
-            propsData: { type,isActive },
-        });
+        const typePropType = "string";
+        const isActivePropType = "boolean";
+        const wrapper = createWrapper(Message, {
+            propsData: { type,isActive }
+          })
 
-        expect(type).toBe(PropText);
+        expect(wrapper.vm.type).toBeTypeOf(typePropType);
+        expect(wrapper.vm.isActive).toBeTypeOf(isActivePropType);
     });
 
-    it("should get the empty prop Type", () => {
-        const type = "";
+    it("Should get the prop values", () => {
+        const type = "sucess";
         const isActive = true;
-        const PropText = "";
-        const wrapper = mount(Message, {
-            propsData: { type,isActive },
-        });
+        const typePropValue = "sucess";
+        const isActivePropValue = true;
+        const wrapper = createWrapper(Message, {
+            propsData: { type,isActive }
+          })
 
-        expect(type).toBe(PropText);
+        expect(wrapper.vm.type).toBe(typePropValue);
+        expect(wrapper.vm.isActive).toBe(isActivePropValue);
     });
 
-    it("should get the String prop Type", () => {
+    it("Check values of elements that are using props when pros are empty", () => {
+        let type 
+        let isActive 
+        const typePropValue = "sucess";
+        const isActivePropValue = true;
+        const className = "is-active"
+        const wrapper = createWrapper(Message, {
+            propsData: { type,isActive }
+          })
+          wrapper.vm.setMessage()
+
+        expect(wrapper.find('#activeDiv').classes(className)).toBeFalsy()
+        expect(wrapper.find('#mesageLabel').text()).toBe('The undefined action was a undefined')
+    });
+
+    it("Should fail if type is not a string", () => {
         const type = 2;
         const isActive = true;
-        const PropText = "";
-        const wrapper = mount(Message, {
-            propsData: { type,isActive },
-        });
+        const typeOfProp = 'string'
+        const wrapper = createWrapper(Message, {
+            propsData: { type,isActive }
+          })
 
-        expect(type).toBeTypeOf('string');
+        expect(type).toBeTypeOf(typeOfProp);
     });
 
-    it("should get the boolean prop isActive", () => {
-        const type = "failure";
-        const isActive = true;
-        const PropText = "";
-        const wrapper = mount(Message, {
-            propsData: { type,isActive },
-        });
-
-        expect(isActive).toBeTypeOf('boolean')
-
-    });
-
-    it("should fail if prop isActive is not a boolean", () => {
+    it("Should fail if prop isActive is not a boolean", () => {
         const type = "failure";
         const isActive = "testas";
-        const PropText = "";
-        const wrapper = mount(Message, {
-            propsData: { type,isActive },
-        });
+        const typeOfProp = 'boolean'
+        const wrapper = createWrapper(Message, {
+            propsData: { type,isActive }
+          })
 
-        expect(isActive).toBeTypeOf('boolean')
+        expect(isActive).toBeTypeOf(typeOfProp)
 
     });
 
-    it("should emmit on button click", async() => {
+    it("Check if prop's get correct value", () => {
+        const type = "failure";
+        const isActive = true;
+        const PropText = "failure";
+        const wrapper = createWrapper(Message, {
+            propsData: { type,isActive }
+          })
+
+        expect(wrapper.vm.isActive).toBe(true)
+        expect(wrapper.vm.type).toBe(PropText)
+
+    });
+
+    it("Should emmit on button click", async() => {
         const type = "failure";
         const isActive = "a";
         const PropText = "";
-        const wrapper = mount(Message, {
-            propsData: { type,isActive },
-        });
-        const ac = await wrapper.get("button").trigger("click");
+        const emit = 'close-action'
+        const wrapper = createWrapper(Message, {
+            propsData: { type,isActive }
+          })
+        const ac = await wrapper.find("#closeButton").trigger("click");
         wrapper.vm.$nextTick(() => {
             wrapper.vm.close()
-        expect(wrapper.emitted().toEqual(['close-action']))
+        expect(wrapper.emitted('close-action')).toBeTruthy()
         })
         
     });
@@ -84,31 +107,34 @@ describe("Modal.vue", () => {
         sucess = "failure";
         const type = "edit";
         const isActive = true;
-        const wrapper = mount(Message, {
-            propsData: { type,isActive,sucess },
-        });
+        const labelText = "The edit action was a failure"
+        const wrapper = createWrapper(Message, {
+            propsData: { type,isActive,sucess }
+          })
        wrapper.vm.setMessage()
 
-        expect(wrapper.find("label").text()).toBe("The edit action was a failure")
+        expect(wrapper.find("#mesageLabel").text()).toBe(labelText)
     });
 
     it("Div class should be the same value as isActive", () => {
         const type = "edit";
         const isActive = true;
-        const wrapper = mount(Message, {
-            propsData: { type,isActive,},
-        });
+        const className = "is-active"
+        const wrapper = createWrapper(Message, {
+            propsData: { type,isActive }
+          })
 
-        expect(wrapper.find("div").classes("is-active")).toBe(true)
+        expect(wrapper.find("#activeDiv").classes(className)).toBe(true)
     });
 
     it("Div class should have the class isActive if prop isActive is true", () => {
         const type = "edit";
         const isActive = true;
-        const wrapper = mount(Message, {
-            propsData: { type,isActive,},
-        });
+         const className = "is-active"
+         const wrapper = createWrapper(Message, {
+            propsData: { type,isActive }
+          })
 
-        expect(wrapper.find("div").classes()).toContain("is-active")
+        expect(wrapper.find("#activeDiv").classes()).toContain(className)
     });
 });

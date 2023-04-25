@@ -2,14 +2,14 @@
 
   <div>
     <div class="box">
-      <p class="is-size-3 is-family-primary has-text-weight-bold">{{ Article.title }}</p>
-      <p class="">{{ AuthorName }}</p>
-      <p>{{ calculateDate }}</p>
-      <router-link :to="{ name: 'SpesificArticle', params: { id: Article.id } }">
-        <button class="button is-link">View</button>
+      <p :id="'title'" class="is-size-3 is-family-primary has-text-weight-bold">{{ Article.title }}</p>
+      <p :id="'authorName'" class="">{{ AuthorName }}</p>
+      <p :id="'date'">{{ calculateDate }}</p>
+      <router-link :id="'redirectToArticle'" :to="{ name: 'SpesificArticle', params: { id: Article.id } }">
+        <button :id="'articleRedirectButton'" class="button is-link">View</button>
       </router-link>
-      <button @click="$emit('show-edit', Article.id)" class="button is-info">Edit</button>
-      <button @click="deleteArticle(Article.id)" class="button is-danger">Delete</button>
+      <button :id="'edit'" @click="$emit('show-edit', Article.id)" class="button is-info">Edit</button>
+      <button :id="'delete'" @click="deleteArticle(Article.id)" class="button is-danger">Delete</button>
 
 
 
